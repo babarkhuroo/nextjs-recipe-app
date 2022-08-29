@@ -1,13 +1,16 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { groq } from 'next-sanity'
 import { sanityClient, urlFor } from '../lib/sanity'
 
-const recipesQuery = `*[_type == 'recipe'] {
-  _id,
-  name,
-  slug,
-  mainImage
-}`
+const recipesQuery = groq`
+  *[_type == 'recipe'] {
+    _id,
+    name,
+    slug,
+    mainImage
+  }
+`
 
 export default function Home({ recipes }) {
   return (
