@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { groq } from 'next-sanity'
-import { sanityClient, urlFor } from '../lib/sanity'
+import { getClient, urlFor } from '../lib/sanity'
 
 const recipesQuery = groq`
   *[_type == 'recipe'] {
@@ -13,6 +13,7 @@ const recipesQuery = groq`
 `
 
 export default function Home({ recipes }) {
+  console.log(recipes)
   return (
     <div>
       <Head>
@@ -41,6 +42,6 @@ export default function Home({ recipes }) {
 }
 
 export async function getStaticProps() {
-  const recipes = await sanityClient.fetch(recipesQuery)
+  const recipes = await getClient().fetch(recipesQuery)
   return { props: { recipes } }
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { groq } from 'next-sanity'
 import {
-  sanityClient,
+  getClient,
   urlFor,
   usePreviewSubscription,
   PortableText,
@@ -29,9 +29,9 @@ const recipeQuery = groq`
 
 export default function OneRecipe({ data, preview }) {
   const { data: recipe } = usePreviewSubscription(recipeQuery, {
-    params: { slug: data.recipe?.slug.current },
-    initialData: data,
-    enabled: preview,
+    params: { slug: data.recipe?.slug },
+    initialData: data.recipe,
+    enabled: preview && data.recipe?.slug,
   })
 
   const [likes, setLikes] = useState(data?.recipe?.likes)
@@ -78,7 +78,7 @@ export default function OneRecipe({ data, preview }) {
 }
 
 export async function getStaticPaths() {
-  const paths = await sanityClient.fetch(
+  const paths = await getClient().fetch(
     groq`*[_type == "recipe" && defined(slug.current)]{
             "params":{
                 "slug":slug.current
@@ -88,8 +88,8 @@ export async function getStaticPaths() {
   return { paths, fallback: true }
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, preview = false }) {
   const { slug } = params
-  const recipe = await sanityClient.fetch(recipeQuery, { slug })
-  return { props: { data: { recipe }, preview: true } }
+  const recipe = await getClient(preview).fetch(recipeQuery, { slug })
+  return { props: { data: { recipe }, preview } }
 }
