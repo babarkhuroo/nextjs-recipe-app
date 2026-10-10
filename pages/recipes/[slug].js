@@ -1,11 +1,6 @@
 import { useState } from 'react'
-import { groq } from 'next-sanity'
-import {
-  getClient,
-  urlFor,
-  usePreviewSubscription,
-  PortableText,
-} from '../../lib/sanity'
+import groq from 'groq'
+import { getClient, urlFor, PortableText } from '../../lib/sanity'
 
 const recipeQuery = groq`
 *[_type == 'recipe' && slug.current == $slug][0]{
@@ -27,12 +22,8 @@ const recipeQuery = groq`
 }
 `
 
-export default function OneRecipe({ data, preview }) {
-  const { data: recipe } = usePreviewSubscription(recipeQuery, {
-    params: { slug: data.recipe?.slug },
-    initialData: data.recipe,
-    enabled: preview && data.recipe?.slug,
-  })
+export default function OneRecipe({ data }) {
+  const recipe = data.recipe
 
   const [likes, setLikes] = useState(data?.recipe?.likes)
 
