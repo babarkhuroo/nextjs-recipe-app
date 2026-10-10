@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Versions
+
+- `legacy-v1` branch – the original project (Next.js 12, React 18, Sanity Studio v2), kept as-is for reference.
+- This branch – upgraded to Next.js 16, React 19, ESLint 9 (flat config) and Sanity Studio v6. Requires Node.js 20.9+ (22.12+ for the studio).
+
 ## Getting Started
 
 First, run the development server:

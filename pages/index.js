@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { groq } from 'next-sanity'
+import groq from 'groq'
 import { getClient, urlFor } from '../lib/sanity'
 
 const recipesQuery = groq`
@@ -28,10 +28,8 @@ export default function Home({ recipes }) {
           recipes.map((recipe) => (
             <li key={recipe._id} className='recipe-card'>
               <Link href={`/recipes/${recipe.slug.current}`}>
-                <a>
-                  <img src={urlFor(recipe.mainImage).url()} alt={recipe.name} />
-                  <span>{recipe.name}</span>
-                </a>
+                <img src={urlFor(recipe.mainImage).url()} alt={recipe.name} />
+                <span>{recipe.name}</span>
               </Link>
             </li>
           ))}
