@@ -30,8 +30,10 @@ export default function OneRecipe({ data }) {
   const addLike = async () => {
     const res = await fetch('/api/handleLike', {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ _id: recipe._id }),
     }).catch((error) => console.log(error))
+    if (!res?.ok) return
     const data = await res.json()
 
     setLikes(data.likes)
